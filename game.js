@@ -67,16 +67,16 @@ const moveElemento = (el, veloc, inc) => {
         //Ou se foi clicado (classe "morto")
         //retorna para uma posição
         //à esquerda quadro (re-entra)  
-        if(veloc > larguraQuadro || el.classList.contains('morto')){
+        if (veloc > larguraQuadro || el.classList.contains('morto')) {
             //sorteia um valor entre -50 e -500
-            veloc= -Math.random()*450+50
-            inc = Math.random()*5+7
+            veloc = -Math.random() * 450 + 50
+            inc = Math.random() * 5 + 7
             posicElement(el)
             el.classList.remove('morto')
         }
         //adiciona atributo velocidade para 
         //consulta no codigo javascript
-        el.setAttribute('velocidade',inc)   
+        el.setAttribute('velocidade', inc)
     }, 24);
 }
 
@@ -89,10 +89,32 @@ const clickBug = (el) => {
     el.classList.add('morto')
     //adiciona 10 pontos ao score 
     score += 10
+
+
+    //se o inseto clicado pelo usuario for "bonzinho" perde 50 pontos
+    if (el.classList.contains('bonzinho')) {
+        score -= 60
+    }
+
     document.getElementById('score').innerText = score
     //Se a velocidade for maior que 20 faz 100 pontos
-    if(el.getAttribute('velocidade')> 20){
+    // apenas nos insetos que tenham a classe "invasores"  ou seja, somente nos malvados kkkka
+    if (el.getAttribute('velocidade') > 10 && el.classList.contains('invasor')) {
         score += 100
+        //Esconde +100 pontos apôs 1/2 segundos 
+        let pts100 = document.getElementById('pts100')
+        pts100.style.left = el.style.left
+        pts100.style.top = el.style.top
+        /* const mostra100pts = setInterval(() => {
+            pts100.style.left = '-300px'
+            //interrompe o setInterval 
+            clearInterval(mostra100pts
+                )
+            
+        }, 500); */
+        const mostra100pts = setTimeout(() => {
+            pts100.style.left = '-300px'
+        }, 500);
     }
 }
 
@@ -109,11 +131,32 @@ for (inv of invasores) {
     posicElement(inv)
     moveElemento(inv, Math.random() * 1, Math.random() * 5)
     //evt.target = elemento que executa o evento - inseto clicado
-    inv.addEventListener ('mousedown',(evt)=>{clickBug(evt.target)})
+    inv.addEventListener('mousedown', (evt) => { clickBug(evt.target) })
 }
 
+for (bom of bonzinhos) {
+    posicElement(bom)
+    moveElemento(bom, Math.random() * 1, Math.random() * 5)
+    bom.addEventListener('mousedown', (evt) => { clickBug(evt.target) })
+}
+
+//Contagem regressiva 
+
+setTimeout(() => {
+    //Avisa ao usuário o FIM DO TEMPO 
+    alert('TEMPO ESGOTADO!!!')
+    document.location.reload(true);
+
+    //RECARREGA A PÁGINA - SEMELHANTE A F5
+}, tempoRestante * 1000);
 
 
+
+const mostraTempo = setInterval(() => {
+    //mostra tempo restante 
+    document.getElementById('infoTR').innerText = tempoRestante --
+    document.getElementById('temporest').innerText 
+}, 1000);
 
 
 // moveElemento(document.getElementById('inv1'),5,3)
