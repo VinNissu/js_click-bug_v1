@@ -91,9 +91,9 @@ const clickBug = (el) => {
     score += 10
 
 
-    //se o inseto clicado pelo usuario for "bonzinho" perde 50 pontos
+    //se o inseto clicado pelo usuario for "bonzinho" perde 60 pontos
     if (el.classList.contains('bonzinho')) {
-        score -= 60
+        score -= 70
     }
 
     document.getElementById('score').innerText = score
