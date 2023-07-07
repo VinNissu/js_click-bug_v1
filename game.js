@@ -37,7 +37,7 @@ let larguraQuadro = document.getElementById('quadro').offsetWidth
 
 
 
-
+//Feito por Vinícius
 // ________________________________________________
 
 
